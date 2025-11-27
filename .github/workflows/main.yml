@@ -29,6 +29,55 @@ jobs:
         with:
           path: "."
 
+  tests:
+    if: github.ref == 'refs/heads/main'
+    name: Pruebas unitarias
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Verificar que el proyecto contiene JavaScript
+        run: |
+          if ! grep -rq "\.js" .; then
+            echo "No se encontraron archivos JavaScript. Cancelando..."
+            exit 1
+          else
+            echo "Se encontraron archivos JavaScript."
+          fi
+      - name: Ejecutar pruebas unitarias
+        run: |
+          npm test || (echo "Las pruebas fallaron." && exit 1)
+          echo "Pruebas unitarias completadas correctamente."
+  docs:
+    if: github.ref == 'refs/heads/main'
+    name: Generación de documentación
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Generar documentación con JSDoc
+        run: |
+          echo "Generando documentación con JSDoc..."
+          mkdir -p docs
+          npx jsdoc -c jsdoc.json || true
+          echo "Documentación generada en /docs"
+      - name: Subir documentación como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: docs/
+
   deploy:
     if: github.ref == 'refs/heads/main'
     needs: build
