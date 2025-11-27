@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-const { alternarVisibilidad, inicializarBotones } = require('../src/app.test');
+const { alternarVisibilidad, inicializarBotones } = require('../src/app.js');
 
 describe('Funciones de visibilidad y botones', () => {
     beforeEach(() => {
