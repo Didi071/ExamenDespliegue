@@ -33,6 +33,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     name: Pruebas unitarias
     runs-on: ubuntu-latest
+    needs: build
 
     steps:
       - name: Checkout del repositorio
@@ -80,7 +81,7 @@ jobs:
 
   deploy:
     if: github.ref == 'refs/heads/main'
-    needs: build
+    needs: docs
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
