@@ -83,3 +83,27 @@ git branch -d rama
 git switch main
 git merge mi-rama
 ```
+
+## ⭐ 6. Conectar a GitHub (imprescindible)
+
+Añadir remoto:
+
+```bash
+git remote add origin <url>
+git remote -v
+```
+
+Primera subida:
+
+```bash
+git branch -M main
+git push -u origin main
+```
+
+Sincronizar:
+
+```bash
+git fetch      # descarga sin mezclar
+git pull       # descarga + merge
+git push
+```
